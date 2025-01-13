@@ -48,4 +48,10 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
+    public function showPosts()
+    {
+        $posts = Posts::all();
+        return view('admin.showPosts', ['posts' => $posts]);
+    }
+
 }
