@@ -150,10 +150,10 @@
                                         <!-- Actions: Edit and Delete -->
                                         <td>
                                             <!-- Edit button (route to edit page) -->
-                                            <a href="#" class="btn btn-primary btn-sm">Edit</a>
+                                            <a href="{{ route('editPost', $post->id) }}" class="btn btn-primary btn-sm">Edit</a>
 
                                             <!-- Delete form (submitting DELETE request) -->
-                                            <form action="#" method="POST" style="display:inline;">
+                                            <form action="{{route('deletePost',$post->id)}}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>

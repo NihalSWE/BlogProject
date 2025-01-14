@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Posts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -45,13 +46,61 @@ class AdminController extends Controller
 
 
         flash()->success('Post Added Successfully.');
-        return redirect()->back();
+        return redirect()->route('showPosts');
     }
 
     public function showPosts()
     {
         $posts = Posts::all();
         return view('admin.showPosts', ['posts' => $posts]);
+    }
+
+    public function editPost($id)
+    {
+        $post = Posts::findOrFail($id); // Find post by id
+        return view('admin.editpost', ['post' => $post]);
+    }
+
+    public function updatePost(Request $request, $id)
+    {
+
+        // Find the post by its ID
+        $post = Posts::findOrFail($id);
+
+
+
+        // Update post fields
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $image = $request->image;
+
+
+        if ($request->hasFile('image')) {
+            $image = $request->file("image");
+            $imagename = time() . '.' . $request->image->extension();
+            $image->move(public_path('images'), $imagename);
+            $post->image = $imagename;
+        }
+
+        // Save the updated post
+        $post->save();
+
+
+        flash()->success('Post updated successfully');
+        return redirect()->route('showPosts', ['post' => $post]);
+
+    }
+
+
+    public function deletePost($id)
+    {
+        $post = Posts::findOrFail($id);
+        $post->delete();
+
+        flash()->success('Post deleted successfully');
+        return redirect()->back();
+
+
     }
 
 }
