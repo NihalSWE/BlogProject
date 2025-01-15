@@ -26,3 +26,5 @@ Route::post('/updatePost/{id}', [AdminController::class, 'updatePost'])->name('u
 
 // Delete post (using post id)
 Route::delete('/deletePost/{id}', [AdminController::class, 'deletePost'])->name('deletePost');
+
+

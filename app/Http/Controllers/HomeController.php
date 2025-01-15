@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Posts;
 
 use Illuminate\Http\Request;
 
@@ -14,10 +14,12 @@ class HomeController extends Controller
     public function index()
     {
         if (Auth::id()) {
+            $post = Posts::all();
             $usertype = Auth::user()->usertype;
 
             if ($usertype == "user") {
-                return view("home.homepage");
+
+                return view("home.homepage", ['post' => $post]);
             } elseif ($usertype == "admin") {
                 return view("admin.index");
             } else {
@@ -29,9 +31,9 @@ class HomeController extends Controller
 
     public function homepage()
     {
-        return view("home.homepage");
+        $post = Posts::all();
+        return view("home.homepage", ['post' => $post]);
     }
-
 
 
 
